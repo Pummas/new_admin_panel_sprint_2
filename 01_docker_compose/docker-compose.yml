@@ -29,7 +29,8 @@ services:
     volumes:
       - static_volume:/app/static
     depends_on:
-      - db
+      db:
+        condition: service_healthy
   nginx:
     image: nginx:1.19.2
     volumes:
