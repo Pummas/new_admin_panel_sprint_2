@@ -18,12 +18,10 @@ services:
     container_name: Django
     build:
       context: .
-    env_file:
-      - app/config/.env
     command: >
       sh -c "python manage.py migrate &&
       python manage.py collectstatic --noinput &&
-      gunicorn --bind 0.0.0.0:${HTTP_PORT:-8000} config.wsgi"
+      gunicorn --bind 0.0.0.0:8000 config.wsgi"
     ports:
       - "8000:8000"
     volumes:
@@ -40,7 +38,7 @@ services:
     depends_on:
       - backend
     ports:
-      - "1337:80"
+      - "8001:80"
 
 volumes:
   static_volume:
