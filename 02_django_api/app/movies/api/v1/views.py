@@ -13,7 +13,7 @@ class MoviesApiMixin:
     def get_queryset(self):
         film_works = (
             Filmwork.objects.prefetch_related(
-                'genres').prefetch_related('persons').order_by('title')
+                'genres', 'persons').order_by('title')
         )
         queryset = film_works.values(
             'id', 'title', 'description', 'creation_date', 'rating', 'type'
@@ -56,8 +56,8 @@ class MoviesListApi(MoviesApiMixin, BaseListView):
         context = {
             'count': paginator.count,
             'total_pages': paginator.num_pages,
-            "prev": None if page.number == 1 else page.previous_page_number(),
-            "next": None if paginator.num_pages == page.number
+            'prev': None if page.number == 1 else page.previous_page_number(),
+            'next': None if paginator.num_pages == page.number
             else page.next_page_number(),
             'results': list(queryset),
         }

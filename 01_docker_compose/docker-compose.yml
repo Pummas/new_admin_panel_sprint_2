@@ -4,7 +4,7 @@ services:
     image: postgres
     container_name: postgres-web
     ports:
-      - "${DB_PORT:-5432}:5432"
+      - "5432:5432"
     environment:
       - POSTGRES_PASSWORD=123qwe
       - POSTGRES_USER=app
@@ -18,19 +18,13 @@ services:
     container_name: Django
     build:
       context: .
-    command: >
-      sh -c "python manage.py migrate &&
-      python manage.py collectstatic --noinput &&
-      gunicorn --bind 0.0.0.0:8000 config.wsgi"
-    ports:
-      - "8000:8000"
     volumes:
       - static_volume:/app/static
     depends_on:
       db:
         condition: service_healthy
   nginx:
-    image: nginx:1.19.2
+    image: nginx:latest
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/sites.conf:/etc/nginx/conf.d/default.conf:ro
