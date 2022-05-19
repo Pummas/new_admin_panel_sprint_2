@@ -1,3 +1,4 @@
 /.idea
 /01_docker_compose/app/config/.env
 /02_django_api/app/config/.env
+/01_docker_compose/.env
